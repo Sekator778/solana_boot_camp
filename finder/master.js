@@ -11,6 +11,7 @@ function stopAllWorkers() {
     const endTime = process.hrtime.bigint(); // Capture end time
     const duration = (endTime - startTime) / BigInt(1e9); // Convert to seconds
     console.log(`Total time taken: ${duration} seconds`);
+    console.log(`Total loops made: ${totalAttempts}`);
 }
 
 const startTime = process.hrtime.bigint(); // Start timing before launching any workers
@@ -28,13 +29,13 @@ if (require.main === module) {
         const worker = new Worker('./worker.js', { workerData: { prefix } });
         activeWorkers.push(worker);
         worker.on('message', (msg) => {
+          if (msg === 'loop') {
+            totalAttempts++;
+          }
+          else {
             console.log(`Received from worker ${worker.threadId}: ${msg}`);
-            const matches = /Attempts: (\d+)/.exec(msg);
-            if (matches && matches[1]) {
-                totalAttempts += parseInt(matches[1], 10);
-            }
-            // Terminate all workers when one finds the key
             stopAllWorkers();
+          }
         });
         worker.on('exit', () => {
             activeWorkers = activeWorkers.filter(w => w.threadId !== worker.threadId);

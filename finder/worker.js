@@ -6,6 +6,7 @@ const prefix = workerData.prefix.toLowerCase(); // Ensure the prefix is in lower
 while (true) {
     const keypair = Keypair.generate();
     const publicKeyString = keypair.publicKey.toBase58().toLowerCase(); // Convert to lower case
+    parentPort.postMessage('loop');
 
     if (publicKeyString.startsWith(prefix)) {
 		const publicKey = keypair.publicKey.toBase58();
