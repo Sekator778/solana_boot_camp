@@ -1,6 +1,6 @@
 # Solana Token Operations
 
-This project demonstrates how to perform various token operations on the Solana blockchain using the Solana Web3.js and SPL Token libraries. The tasks include creating a token mint and minting your own tokens.
+This project demonstrates how to perform various token operations on the Solana blockchain using the Solana Web3.js and SPL Token libraries. The tasks include creating a token mint, creating an associated token account, and minting your own tokens.
 
 ## Prerequisites
 
@@ -48,8 +48,13 @@ To run the script, use the following command:
 npx esrun create-token-mint.ts
 ```
 
-### 2. Create token account
+### 2. Create Token Account
+
 This script creates a new token account for the specified mint and owner.
+
+#### Description
+
+The script reads the sender's secret key from the `.env` file and initializes a `Keypair` object. It then establishes a connection to the Solana devnet. Using the `getOrCreateAssociatedTokenAccount` function from the `@solana/spl-token` library, it creates a new token account for the specified mint and owner.
 
 #### Running the Script
 
@@ -60,4 +65,54 @@ npx esrun create-token-account.ts
 ```
 
 ### 3. Mint Tokens
+
 This script mints new tokens to the specified token account.
+
+#### Description
+
+The script reads the sender's secret key from the `.env` file and initializes a `Keypair` object. It then establishes a connection to the Solana devnet. Using the `mintTo` function from the `@solana/spl-token` library, it mints the specified amount of tokens to the recipient's associated token account.
+
+#### Running the Script
+
+To run the script, use the following command:
+
+```bash
+npx esrun mint-tokens.ts
+```
+
+## Example Output
+
+### Create Token Mint
+
+```
+🔑 Loaded our keypair securely! Our public key is: C1aDCqg1N7oVf5rm8dqFeRYrqt299sV7GzsA3jnfTfz9
+✅ Token Mint: <Token Mint Address>
+```
+
+### Create Token Account
+
+```
+🔑 Loaded our keypair securely! Our public key is: C1aDCqg1N7oVf5rm8dqFeRYrqt299sV7GzsA3jnfTfz9
+Token Account: Bc9jVWCYdjy5kEefUTDAbfbG5SS7YhDCiuRozPiCtPDz
+✅ Created token account: https://explorer.solana.com/address/Bc9jVWCYdjy5kEefUTDAbfbG5SS7YhDCiuRozPiCtPDz?cluster=devnet
+```
+
+### Mint Tokens
+
+```
+🔑 Loaded our keypair securely! Our public key is: C1aDCqg1N7oVf5rm8dqFeRYrqt299sV7GzsA3jnfTfz9
+✅ Success! Mint Token Transaction: https://explorer.solana.com/tx/<Transaction Signature>?cluster=devnet
+```
+
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgements
+
+- [Solana Web3.js](https://github.com/solana-labs/solana-web3.js)
+- [Solana SPL Token](https://github.com/solana-labs/solana-program-library/tree/master/token/js)
+
+Feel free to contribute to this project by submitting a pull request or opening an issue. Happy coding!
+
+This README provides a detailed overview of the project, including the prerequisites, installation steps, configuration, usage instructions, example output, license information, acknowledgements, and an invitation to contribute. It also includes code snippets for running the scripts and links to the Solana Web3.js and SPL Token libraries for further reference.
