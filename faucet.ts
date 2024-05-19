@@ -1,38 +1,34 @@
 import "dotenv/config";
-import {
-  getKeypairFromEnvironment,
-  airdropIfRequired,
-} from "@solana-developers/helpers";
-import {
-  Connection,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  clusterApiUrl,
-} from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL, PublicKey, clusterApiUrl } from "@solana/web3.js";
 
-const connection = new Connection(clusterApiUrl("devnet"));
+async function main() {
+  try {
+    const connection = new Connection(clusterApiUrl("devnet"));
+    console.log(`⚡️ Connected to devnet`);
 
-console.log(`⚡️ Connected to devnet`);
+    // put your key here
+    const publicKeyStr = "sEKAtRdfFdxNotdpUGDDBJtdz54oXyp2FEDg2vSvXAu";
+    if (!PublicKey.isOnCurve(publicKeyStr)) {
+      throw new Error("Invalid public key");
+    }
+    
+    const publicKey = new PublicKey(publicKeyStr);
+    console.log(`🔑 Using public key: ${publicKey.toString()}`);
+	// write count of sol here
+    console.log(`💧 Requesting airdrop of 1 SOL...`);
+    const airdropSignature = await connection.requestAirdrop(publicKey, 1 * LAMPORTS_PER_SOL);
+    console.log(`🔗 Airdrop transaction signature: ${airdropSignature}`);
 
-const publicKey = new PublicKey("C1aDCqg1N7oVf5rm8dqFeRYrqt299sV7GzsA3jnfTfz9");
+    console.log(`⏳ Waiting for confirmation...`);
+    await connection.confirmTransaction(airdropSignature);
+    console.log(`💧 Airdrop confirmed`);
 
-await airdropIfRequired(
-  connection,
-  publicKey,
-  1 * LAMPORTS_PER_SOL,
-  0.5 * LAMPORTS_PER_SOL
-);
+    const balanceInLamports = await connection.getBalance(publicKey);
+    const balanceInSOL = balanceInLamports / LAMPORTS_PER_SOL;
+    console.log(`💰 Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL} SOL!`);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
 
-console.log(
-  `We get airdrop`
-);
-
-
-const balanceInLamports = await connection.getBalance(publicKey);
-
-const balanceInSOL = balanceInLamports / LAMPORTS_PER_SOL;
-
-console.log(
-  `💰 Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL}!`
-);
-
+main();
