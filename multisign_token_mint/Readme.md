@@ -92,8 +92,8 @@ The `transfer-tokens-5.ts` script transfers a specified amount of tokens from th
 
 1. **Clone the repository**:
    ```sh
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/Sekator778/solana_boot_camp.git
+   cd solana_boot_camp
    ```
 
 2. **Install dependencies**:
