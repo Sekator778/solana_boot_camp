@@ -87,7 +87,6 @@ The `transfer-tokens-5.ts` script transfers a specified amount of tokens from th
 
 - Ensure each script runs successfully before proceeding to the next step.
 - Verify transactions and token balances using Solana Explorer or appropriate tools.
-```
 
 ### Usage Instructions
 
