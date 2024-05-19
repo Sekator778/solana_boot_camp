@@ -1,0 +1,5 @@
+look comment into file - send-sol.ts
+where need to put your private key like - [78, 05, 07 .....]
+
+and start use command
+ npx esrun send-sol.ts
