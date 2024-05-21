@@ -11,7 +11,6 @@ import {
     createUpdateMetadataAccountV2Instruction,
 } from "@metaplex-foundation/mpl-token-metadata";
 import fs from 'fs';
-import {getExplorerLink} from "@solana-developers/helpers";
 
 // Завантаження секретного ключа з .env
 const secretKeyString = process.env.SENDER_SECRET_KEY;
@@ -29,20 +28,27 @@ console.log(`🔑 Loaded our keypair securely! Our public key is: ${user.publicK
 // Metaplex Token Metadata Program ID
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
 
-// Token mint account from попереднього сценарію
+// Token mint account from keys.json
 const tokenMintAccount = new PublicKey("8PzwQqrBGLzfV7J8nydYfTPfh7LmnQH1J7SpPATkRpLx");
 
-const metadataData =
-    {
+// Використання зображення з іншого ресурсу
+const imageUrl = "https://s3.amazonaws.com/your-bucket-name/your-image.png";
+
+const metadataData = {
     name: "Sekator Training Token",
     symbol: "TRAINING",
-    uri: "https://postimg.cc/NKTsqyG9",
-    sellerFeeBasisPoints: 0,
-    creators: null,
+    uri: imageUrl,
+    sellerFeeBasisPoints: 500,
+    creators: [
+        {
+            address: user.publicKey,
+            verified: true,
+            share: 100
+        }
+    ],
     collection: null,
     uses: null,
 };
-
 
 const metadataPDAAndBump = PublicKey.findProgramAddressSync(
     [
@@ -82,13 +88,3 @@ const signature = await sendAndConfirmTransaction(
 
 console.log(`🎉 Transaction confirmed with signature: ${signature}`);
 console.log(`🔗 View on Explorer: https://explorer.solana.com/tx/${signature}?cluster=devnet`);
-
-const tokenMintLink = getExplorerLink(
-    "address",
-    tokenMintAccount.toString(),
-    "devnet"
-);
-
-console.log(`✅ Look at the token mint again: ${tokenMintLink}!`);
-
-
