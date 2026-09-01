@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Solana keypairs — regenerate with create-keys-1.ts, never commit
+keys.json
+id.json
+*.keypair.json
